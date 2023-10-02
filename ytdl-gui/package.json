@@ -1,0 +1,42 @@
+{
+    "name": "ytdl-gui",
+    "productName": "ytdl-gui",
+    "version": "0.0.1",
+    "description": "GUI for YTDL",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish",
+        "lint": "echo \"No linting configured\""
+    },
+    "keywords": [
+        "GUI",
+        "YT-DL",
+        "Youtube-dl",
+        "youtube",
+        "download"
+    ],
+    "author": {
+        "name": "Jorge Martin",
+        "email": "mrtin.abad.jorge@hotmail.com"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "electron-squirrel-startup": "^1.0.0"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^6.4.2",
+        "@electron-forge/maker-deb": "^6.4.2",
+        "@electron-forge/maker-rpm": "^6.4.2",
+        "@electron-forge/maker-squirrel": "^6.4.2",
+        "@electron-forge/maker-zip": "^6.4.2",
+        "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+        "@typescript-eslint/eslint-plugin": "^6.7.3",
+        "@typescript-eslint/parser": "^6.7.3",
+        "electron": "26.2.4",
+        "eslint": "^8.50.0",
+        "typescript": "^5.2.2"
+    }
+}

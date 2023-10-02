@@ -22,7 +22,7 @@ Electron project GUI for youtube-dl
    ![FFMPEG download Instructions](./ytdl-gui/docs/imgs/download-ffmpeg.png)
 3. Descomprimimos el ZIP y movemos la carpeta resultante a C:/ (en mi caso la carpeta es ffmpeg-6.0-essentials_build)
 4. Después hemos de acceder a las Variables del Sistema y añadir la ruta de la carpeta al Path:
-
+   
    1. Escribimos "Variables del sistema" en el buscador de Windows o si no lo tenemos desde en Menú de inicio (darle al botón de Windows de la barra de tareas)
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables1.png)
    
@@ -31,15 +31,15 @@ Electron project GUI for youtube-dl
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables2.png)
 
    3. Hacemos clic en "Path" y después en "Editar..."
-      
+   
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables3.png)
 
    4. Hacemos clic en "Examinar..."
-      
+   
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables4.png)
 
    5. Seleccionamos la carpeta donde esté el ejecutable del FFmpeg que sería C:/ffmpeg-6.0-essentials_build/bin (en mi caso C:/ffmpeg/bin porque le cambie el nombre a la carpeta). Una vez seleccionado le damos a "Aceptar" en todas las ventanas para guardar la configuración.
-      
+   
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables5.png)
 
    6. Para comprobar que está bien instalado, abrimos un Terminal

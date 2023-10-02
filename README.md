@@ -2,8 +2,8 @@
 Electron project GUI for youtube-dl 
 
 # Instalacion proyecto desarrollo
-1. Instalar Node
-2. Instalar las dependencias con `npm i`
+1. Instalar la ultima version de NodeJs
+2. Instalar las dependencias ejecutando, desde la carpeta raiz del projecto, `npm i`
 3. Instalamos las librerias externas necesarias
 
 # Instalacion de las librerias externas necesarias
@@ -36,3 +36,10 @@ Electron project GUI for youtube-dl
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables6.png)
    7. Ejecutamos el comando `ffmpeg -h` y nos deberia de salir toda la ayuda de la aplicacion
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables7.png)
+
+# Arrancar App
+1. Desde la carpeta raiz del projecto usamos el comando `npm start`
+
+# Crear ejecutable
+1. Desde la carpeta raiz del projecto usamos el comando `npm run make`
+2. Los ejecutables se crearan en la ruta /ytdl-gui/make/squirrel.windows/x64 (en el caso de Windows x64)

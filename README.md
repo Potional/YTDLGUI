@@ -22,6 +22,7 @@ Electron project GUI for youtube-dl
    ![FFMPEG download Instructions](./ytdl-gui/docs/imgs/download-ffmpeg.png)
 3. Descomprimimos el ZIP y movemos la carpeta resultante a C:/ (en mi caso la carpeta es ffmpeg-6.0-essentials_build)
 4. Después hemos de acceder a las Variables del Sistema y añadir la ruta de la carpeta al Path:
+
    1. Escribimos "Variables del sistema" en el buscador de Windows o si no lo tenemos desde en Menú de inicio (darle al botón de Windows de la barra de tareas)
 
    ![System Variables Configuration Instructions](./ytdl-gui/docs/imgs/system-variables1.png)

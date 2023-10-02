@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Hello World!</title>
     <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-  </body>
+    <script defer src="render.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>YTDL GUI</h1>
+    <form>
+        <div>
+            <label for="ytdlRoute">Selecciona la ruta al ejecutable de Youtube-dl... </label>
+            <input class="btn btn-primary" type="button" name="ytdl-route" id="ytdlRoute" accept=".exe" value="Examinar...">
+        </div>
+        <div>
+            <label for="downloadedFilesRoute">Selecciona la ruta en la que se guardaran los archivos... </label>
+            <input class="btn btn-primary" type="button" name="downloadedFilesRoute" id="downloadedFilesRoute" value="Examinar...">
+        </div>
+        <div>
+            <label for="urlDownload">Introduce la URL del video que se quiere descargar de Youtube</label>
+            <input class="input" type="url" name="urlDownload" id="urlDownload">
+        </div>
+        <div>
+            <input class="input" type="checkbox" name="transformMP3" id="transformMP3">
+            <label for="transformMP3">Transformar a MP3</label>
+        </div>
+        <div>
+            <button class="btn btn-dark" id="downloadButton" type="button">Descargar</button>
+        </div>
+    </form>
+</body>
+
 </html>

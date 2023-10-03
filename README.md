@@ -8,7 +8,7 @@ Electron project GUI for youtube-dl
 
 # Instalación de las librerías externas necesarias
 ## Youtube-dl
-1. Navegamos a las releases del proyecto en Github: https://github.com/ytdl-org/youtube-dl/releases
+1. Navegamos a las releases del proyecto en Github: https://github.com/yt-dlp/yt-dlp/releases
 2. Nos descargamos la última versión que haya
    ![Youtube-dl Github Instructions](./ytdl-gui/docs/imgs/download-yt-dl-github.png)
 3. Una vez descargada la versión que toca la descomprimimos en la ruta que queramos (si es Ubuntu) o simplemente movemos el .exe a la carpeta que queramos (Windows)

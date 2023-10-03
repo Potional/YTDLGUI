@@ -15,5 +15,31 @@ process.once('loaded', () => {
         if (evt.data.type === 'download-start') {
             ipcRenderer.send('download-start', evt.data.data.urlDownload, { transformMP3: evt.data.data.transformMP3 });
         }
-    })
+    });
+
+    // Escuchanos los eventos del index.js
+    ipcRenderer.on('download-error-status', (event, args) => {
+        console.error("ERROR: " + args.errorMessage);
+    });
+
+    ipcRenderer.on('download-error', (event, args) => {
+        window.postMessage({
+            type: 'download-error'
+        });
+    });
+
+    ipcRenderer.on('download-success', (event, args) => {
+        window.postMessage({
+            type: 'download-success'
+        });
+    });
+
+    ipcRenderer.on('download-update-status', (event, args) => {
+        window.postMessage({
+            type: 'download-update-status',
+            updateMessage: args.statusMessage
+        });
+    });
+
+
 })

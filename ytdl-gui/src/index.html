@@ -32,6 +32,31 @@
             <button class="btn btn-dark" id="downloadButton" type="button">Descargar</button>
         </div>
     </form>
+
+    <!-- Div para los mensages de error, success etc -->
+    <div>
+        <h3 class="text-success" id="downloadSuccessMessage" hidden>Descargado correctamente!</h3>
+        <h3 class="text-danger" id="downloadErrorMessage" hidden>Ha ocurrido un error en la descarga</h3>
+        <h3 class="text-info" id="downloadingMessage" hidden>Descargando video...</h3>
+    </div>
+
+    <!-- Div para el log que va saliendo en la consola -->
+    <div id="divLogs" class="logDiv" hidden>
+        <p class="log"></p>
+    </div>
+
 </body>
 
 </html>
+
+<style>
+    .log {
+        color: green;
+        font-family: monospace;
+    }
+    
+    .logDiv {
+        border: groove;
+        margin-top: 5%;
+    }
+</style>

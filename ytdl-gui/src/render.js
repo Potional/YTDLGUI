@@ -4,6 +4,10 @@ const downloadedFilesRoute = document.getElementById("downloadedFilesRoute");
 const urlDownload = document.getElementById("urlDownload");
 const downloadButton = document.getElementById("downloadButton");
 const transformMP3 = document.getElementById("transformMP3");
+const downloadSuccessMessage = document.getElementById("downloadSuccessMessage");
+const downloadErrorMessage = document.getElementById("downloadErrorMessage");
+const downloadingMessage = document.getElementById("downloadingMessage");
+const divLogs = document.getElementById("divLogs");
 
 // When select exe button click
 ytdlRoute.addEventListener("click", () => {
@@ -21,6 +25,10 @@ downloadedFilesRoute.addEventListener("click", () => {
 
 // When download button click
 downloadButton.addEventListener("click", () => {
+    downloadErrorMessage.hidden = true;
+    downloadSuccessMessage.hidden = true;
+    downloadingMessage.hidden = false;
+    divLogs.hidden = true;
     window.postMessage({
         type: 'download-start',
         data: {
@@ -28,4 +36,26 @@ downloadButton.addEventListener("click", () => {
             transformMP3: transformMP3.checked
         }
     });
+});
+
+// When message from preload
+window.addEventListener('message', (evt) => {
+    if (evt.data.type === 'download-error') {
+        downloadingMessage.hidden = true;
+        downloadErrorMessage.hidden = false;
+    }
+
+    if (evt.data.type === 'download-success') {
+        downloadingMessage.hidden = true;
+        downloadSuccessMessage.hidden = false;
+    }
+
+    if (evt.data.type === 'download-update-status') {
+        divLogs.hidden = false;
+        const logNode = document.createElement("p");
+        logNode.textContent = evt.data.updateMessage;
+        logNode.style.color = "green";
+        logNode.style.fontFamily = "monospace";
+        divLogs.appendChild(logNode);
+    }
 });

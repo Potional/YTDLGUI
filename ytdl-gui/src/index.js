@@ -91,17 +91,24 @@ function execOnWindows(videoUrl, options) {
     ]);
 
     bat.stdout.on("data", (data) => {
-        console.log("Acabo con exito...");
+        const strStatus = new TextDecoder().decode(data);
+        mainWindow.send('download-update-status', { statusMessage: strStatus });
     });
 
     bat.stderr.on("data", (err) => {
-        console.log("ERROR: " + err);
-        // Handle error...
+        const strErr = new TextDecoder().decode(err);
+        console.log("ERROR: " + strErr);
+        mainWindow.send('download-error-status', { errorMessage: strErr });
     });
 
     bat.on("exit", (code) => {
-        console.log("Salido exito...");
-        // Handle exit
+        if (code === 0) {
+            console.log("Finalizado correctamente...");
+            mainWindow.send('download-success', {});
+        } else {
+            console.log("Finalizado con errores...");
+            mainWindow.send('download-error', {});
+        }
     });
 }
 

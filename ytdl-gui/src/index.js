@@ -82,11 +82,12 @@ ipcMain.on('download-start', async(event, videoUrl, options) => {
 });
 
 function execOnWindows(videoUrl, options) {
+
     let bat = spawn("cmd.exe", [
         "/c", // Argument for cmd.exe to carry out the specified script
-        "cd " + saveDestinyDirPath + " && " + ytdlExecPath, // Path to youtube-dl
+        calculateBaseCommandWin(), // Path to youtube-dl
         videoUrl, // videoURL
-        calculateCommandOptions(options)
+        calculateCommandOptionsWin(options) // options
     ]);
 
     bat.stdout.on("data", (data) => {
@@ -104,6 +105,16 @@ function execOnWindows(videoUrl, options) {
     });
 }
 
-function calculateCommandOptions(options) {
+function calculateCommandOptionsWin(options) {
+    var additionalArgs = " --prefer-ffmpeg ";
 
+    if (options.transformMP3) {
+        additionalArgs = additionalArgs.concat("-x --audio-format mp3 ")
+    }
+
+    return additionalArgs;
+}
+
+function calculateBaseCommandWin(params) {
+    return "cd " + saveDestinyDirPath + " && " + ytdlExecPath + " ";
 }

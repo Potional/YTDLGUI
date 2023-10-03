@@ -43,6 +43,12 @@ window.addEventListener('message', (evt) => {
     if (evt.data.type === 'download-error') {
         downloadingMessage.hidden = true;
         downloadErrorMessage.hidden = false;
+        divLogs.hidden = true;
+        var child = e.lastElementChild;
+        while (child) {
+            e.removeChild(child);
+            child = e.lastElementChild;
+        }
     }
 
     if (evt.data.type === 'download-success') {

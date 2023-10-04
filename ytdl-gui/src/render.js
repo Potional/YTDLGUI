@@ -63,5 +63,6 @@ window.addEventListener('message', (evt) => {
         logNode.style.color = "green";
         logNode.style.fontFamily = "monospace";
         divLogs.appendChild(logNode);
+        divLogs.scrollTop = divLogs.scrollHeight;
     }
 });

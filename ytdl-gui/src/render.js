@@ -13,6 +13,7 @@ const downloadingMessage = document.getElementById("downloadingMessage");
 const divLogs = document.getElementById("divLogs");
 const downloadFolderInput = document.getElementById("downloadFolder");
 const selectFolderButton = document.getElementById("selectFolderButton");
+const downloadErrorText = document.getElementById("downloadErrorText");
 
 // Theme toggle functionality
 function initializeTheme() {
@@ -50,7 +51,7 @@ function checkEnableDownloadButtons() {
     const url = urlDownload.value.trim();
     const isValidUrl = url.startsWith("http://") || url.startsWith("https://");
     const folderPath = downloadFolderInput.value.trim();
-    const isValidFolder = folderPath.length > 0; 
+    const isValidFolder = folderPath.length > 0;
     videoDownloadButton.disabled = !isValidUrl || !isValidFolder;
     audioDownloadButton.disabled = !isValidUrl || !isValidFolder;
 }
@@ -85,6 +86,7 @@ videoDownloadButton.addEventListener("click", () => {
 audioDownloadButton.addEventListener("click", () => {
     downloadErrorMessage.hidden = true;
     downloadSuccessMessage.hidden = true;
+    downloadErrorText.hidden = true;
     downloadingMessage.hidden = false;
     divLogs.hidden = true;
     window.postMessage({
@@ -111,16 +113,18 @@ window.addEventListener('message', (evt) => {
     if (evt.data.type === 'download-error') {
         downloadingMessage.hidden = true;
         downloadErrorMessage.hidden = false;
-        divLogs.hidden = true;
-        var child = e.lastElementChild;
-        while (child) {
-            e.removeChild(child);
-            child = e.lastElementChild;
+        downloadErrorText.hidden = false;
+        if (evt.data.errorMessage && evt.data.errorMessage.includes("HTTP Error 404: Not Found")) {
+            downloadErrorText.textContent = "El formato de video especificado no se encuetra disponible, pruebe con WEBM.";
+        } else {
+            downloadErrorText.textContent = evt.data.errorMessage;
         }
+        divLogs.hidden = true;
     }
 
     if (evt.data.type === 'download-success') {
         downloadingMessage.hidden = true;
+        downloadErrorText.hidden = true;
         downloadSuccessMessage.hidden = false;
     }
 

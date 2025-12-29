@@ -30,11 +30,9 @@ process.once('loaded', () => {
     // Escuchanos los eventos del index.js
     ipcRenderer.on('download-error-status', (event, args) => {
         console.error("ERROR: " + args.errorMessage);
-    });
-
-    ipcRenderer.on('download-error', (event, args) => {
         window.postMessage({
-            type: 'download-error'
+            type: 'download-error',
+            errorMessage: args.errorMessage
         });
     });
 

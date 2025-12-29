@@ -155,12 +155,27 @@ function calculateCommandOptionsWin(options) {
     }
 
     if (options.downloadType === 'video') {
-        additionalArgs = additionalArgs.concat(" -f " + options.format + " ");
+
+        if (options.format == 'mp4') {
+            additionalArgs = additionalArgs.concat(" -t mp4 ");
+        }
+
+        if (options.format == 'mkv') {
+            additionalArgs = additionalArgs.concat(" -t mkv ");
+        }
+
     }
 
     if (options.downloadType === 'audio') {
-        additionalArgs = additionalArgs.concat(" -x ");
-        additionalArgs = additionalArgs.concat(" --audio-format " + options.audioFormat + " ");
+
+        if (options.audioFormat == 'mp3') {
+            additionalArgs = additionalArgs.concat(" -t mp3 ");
+        } else if (options.audioFormat == 'aac') {
+            additionalArgs = additionalArgs.concat(" -t aac ");
+        } else {
+            additionalArgs = additionalArgs.concat(" -x --audio-format " + options.audioFormat + " ");
+        }
+
     }
 
     console.log("Additional args: " + additionalArgs);

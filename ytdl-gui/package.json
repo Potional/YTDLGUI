@@ -9,7 +9,11 @@
         "package": "electron-forge package",
         "make": "electron-forge make",
         "publish": "electron-forge publish",
-        "lint": "echo \"No linting configured\""
+        "lint": "echo \"No linting configured\"",
+        "build": "rimraf dist && electron-builder",
+        "build:win": "rimraf dist && electron-builder --win",
+        "build:linux": "rimraf dist && electron-builder --linux",
+        "build:mac": "rimraf dist && electron-builder --mac"
     },
     "keywords": [
         "GUI",
@@ -27,16 +31,75 @@
         "electron-squirrel-startup": "^1.0.0"
     },
     "devDependencies": {
-        "@electron-forge/cli": "^6.4.2",
-        "@electron-forge/maker-deb": "^6.4.2",
-        "@electron-forge/maker-rpm": "^6.4.2",
-        "@electron-forge/maker-squirrel": "^6.4.2",
-        "@electron-forge/maker-zip": "^6.4.2",
-        "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
-        "@typescript-eslint/eslint-plugin": "^6.7.3",
-        "@typescript-eslint/parser": "^6.7.3",
-        "electron": "26.2.4",
-        "eslint": "^8.50.0",
-        "typescript": "^5.2.2"
+        "@electron-forge/cli": "^7.4.0",
+        "@electron-forge/maker-deb": "^7.4.0",
+        "@electron-forge/maker-rpm": "^7.4.0",
+        "@electron-forge/maker-squirrel": "^7.4.0",
+        "@electron-forge/maker-zip": "^7.4.0",
+        "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/parser": "^7.18.0",
+        "electron": "^39.2.7",
+        "electron-builder": "^26.0.12",
+        "eslint": "^8.57.1",
+        "typescript": "^5.7.2",
+        "electron-builder": "^25.1.0"
+    },
+    "build": {
+        "appId": "com.ytdlgui.app",
+        "productName": "YTDL GUI",
+        "directories": {
+            "buildResources": "assets",
+            "output": "dist"
+        },
+        "files": [
+            "src/**/*",
+            "node_modules/**/*",
+            "installer/**/*",
+            "package.json"
+        ],
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                },
+                "portable"
+            ],
+            "certificateFile": null,
+            "certificatePassword": null,
+            "signingHashAlgorithms": [
+                "sha256"
+            ],
+            "sign": null
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "YTDL GUI",
+            "installerIcon": "assets/icon.ico",
+            "uninstallerIcon": "assets/icon.ico",
+            "installerHeaderIcon": "assets/icon.ico"
+        },
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb"
+            ],
+            "icon": "assets/icon.png",
+            "category": "Utility"
+        },
+        "mac": {
+            "target": [
+                "dmg",
+                "zip"
+            ],
+            "icon": "assets/icon.icns"
+        }
     }
 }

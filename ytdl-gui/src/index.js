@@ -2,6 +2,8 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 let spawn = require("child_process").spawn;
 const path = require('path');
+const { initializeConfig, getConfig, setConfig } = require('./configManager');
+const { runSetup: setupYtdlp } = require('./setup');
 
 // Variables
 var mainWindow;
@@ -28,13 +30,26 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
+
+    // Run setup for both yt-dlp
+    const configManager = require('./configManager');
+    setupYtdlp(mainWindow, configManager);
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+    // Initialize configuration
+    initializeConfig();
+
+    // Load saved config values
+    ytdlExecPath = getConfig('ytdlExecPath', '');
+    saveDestinyDirPath = getConfig('saveDestinyDirPath', '');
+
+    createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -53,19 +68,20 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
 // Evento de añadir el path del directorio par las descargas
-ipcMain.on('select-dirs', async(event, arg) => {
+ipcMain.on('select-dirs', async (event, arg) => {
     const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openDirectory']
     });
     saveDestinyDirPath = result.filePaths;
+    // Save to config
+    setConfig('saveDestinyDirPath', saveDestinyDirPath);
+
+    mainWindow.send('folder-selected', { folderPath: saveDestinyDirPath });
 });
 
 // Evento de añadir el path del directorio par las descargas
-ipcMain.on('select-exec', async(event, arg) => {
+ipcMain.on('select-exec', async (event, arg) => {
     const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openFile'],
         filters: [{
@@ -74,11 +90,29 @@ ipcMain.on('select-exec', async(event, arg) => {
         }]
     });
     ytdlExecPath = result.filePaths;
+    // Save to config
+    setConfig('ytdlExecPath', ytdlExecPath);
 });
 
 // Evento de añadir el path del directorio par las descargas
-ipcMain.on('download-start', async(event, videoUrl, options) => {
+ipcMain.on('download-start', async (event, videoUrl, options) => {
     execOnWindows(videoUrl, options);
+});
+
+// Config IPC handlers
+ipcMain.on('config-get', (event, key) => {
+    const value = getConfig(key);
+    event.reply('config-response', value);
+});
+
+ipcMain.on('config-set', (event, key, value) => {
+    const success = setConfig(key, value);
+    event.reply('config-save-response', { success });
+});
+
+ipcMain.on('config-read-all', (event) => {
+    const config = getConfig();
+    event.reply('config-response', config);
 });
 
 function execOnWindows(videoUrl, options) {
@@ -113,15 +147,29 @@ function execOnWindows(videoUrl, options) {
 }
 
 function calculateCommandOptionsWin(options) {
-    var additionalArgs = " --prefer-ffmpeg ";
+    var additionalArgs = " -R 5 --no-warnings ";
 
-    if (options.transformMP3) {
-        additionalArgs = additionalArgs.concat("-x --audio-format mp3 ")
+    // Use the specified folder path if available
+    if (options.folderPath && options.folderPath.trim() !== "") {
+        additionalArgs += "-P " + options.folderPath + " ";
     }
+
+    if (options.downloadType === 'video') {
+        additionalArgs = additionalArgs.concat(" -f " + options.format + " ");
+    }
+
+    if (options.downloadType === 'audio') {
+        additionalArgs = additionalArgs.concat(" -x ");
+        additionalArgs = additionalArgs.concat(" --audio-format " + options.audioFormat + " ");
+    }
+
+    console.log("Additional args: " + additionalArgs);
 
     return additionalArgs;
 }
 
 function calculateBaseCommandWin(params) {
-    return "cd " + saveDestinyDirPath + " && " + ytdlExecPath + " ";
+    const base = ytdlExecPath + " ";
+    console.log("Base command: " + base);
+    return base;
 }

@@ -13,7 +13,17 @@ process.once('loaded', () => {
             ipcRenderer.send('select-exec')
         }
         if (evt.data.type === 'download-start') {
-            ipcRenderer.send('download-start', evt.data.data.urlDownload, { transformMP3: evt.data.data.transformMP3 });
+            ipcRenderer.send('download-start', evt.data.data.urlDownload, evt.data.data);
+        }
+        // Config events
+        if (evt.data.type === 'config-get') {
+            ipcRenderer.send('config-get', evt.data.key);
+        }
+        if (evt.data.type === 'config-set') {
+            ipcRenderer.send('config-set', evt.data.key, evt.data.value);
+        }
+        if (evt.data.type === 'config-read-all') {
+            ipcRenderer.send('config-read-all');
         }
     });
 
@@ -41,5 +51,27 @@ process.once('loaded', () => {
         });
     });
 
+    // Config responses
+    ipcRenderer.on('config-response', (event, args) => {
+        window.postMessage({
+            type: 'config-response',
+            data: args
+        });
+    });
+
+    ipcRenderer.on('config-save-response', (event, args) => {
+        window.postMessage({
+            type: 'config-save-response',
+            success: args.success
+        });
+    });
+
+    // Add this function to handle folder selection response
+    ipcRenderer.on('folder-selected', (event, folderPath) => {
+        window.postMessage({
+            type: 'folder-selected',
+            path: folderPath
+        });
+    });
 
 })
